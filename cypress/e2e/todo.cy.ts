@@ -28,4 +28,23 @@ describe('Todo App Edge Cases', () => {
         cy.get('input[placeholder="Search tasks"]').clear();
         cy.contains('Search').click();
     });
+    
+      
+
+    it('searches for a valid task title', () => {
+        cy.get('input[placeholder="Task title"]').type('Searchable Task');
+        cy.contains('Add Task').click();
+        cy.get('input[placeholder="Search tasks"]').type('Searchable');
+        cy.contains('Search').click();
+        cy.contains('Searchable Task').should('exist');
+    });
+
+    it('sorts tasks by name', () => {
+        cy.get('input[placeholder="Task title"]').type('B Task');
+        cy.contains('Add Task').click();
+        cy.get('input[placeholder="Task title"]').clear().type('A Task');
+        cy.contains('Add Task').click();
+        cy.get('select').last().select('name');
+        cy.get('div').contains('A Task').should('exist');
+    });
 });
